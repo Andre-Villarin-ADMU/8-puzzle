@@ -7,7 +7,12 @@ HEADER_1 = "8 Puzzle - <Insert Algorithm Name>"
 BORDER = "=" * len(HEADER_1)
 HEADER = [BORDER, HEADER_1]
 NUM_ELEMENTS_TO_SELECT = 9
-
+MOVE_OFFSETS = {
+    "up": -3,
+    "down": 3,
+    "left": -1,
+    "right": 1
+}
 
 def random_selector(elements, num_elements_to_select) -> list:
     '''
@@ -55,18 +60,18 @@ def ui_helper(my_arr: list) -> str:
     return str_arr
 
 def is_blank(my_arr: list, index_to_move: int, move: str):
-    match move:
-        case "up":
-            to_check = my_arr[index_to_move-3]
-        case "down":
-            to_check = my_arr[index_to_move+3]
-        case "left":
-            to_check = my_arr[index_to_move-1]
-        case "right":
-            to_check = my_arr[index_to_move+1]
-
+    offset = MOVE_OFFSETS[move]
+    to_check = my_arr[index_to_move + offset]
+    # match move:
+    #     case "up":
+    #         to_check = my_arr[index_to_move-3]
+    #     case "down":
+    #         to_check = my_arr[index_to_move+3]
+    #     case "left":
+    #         to_check = my_arr[index_to_move-1]
+    #     case "right":
+    #         to_check = my_arr[index_to_move+1]
     return to_check == " "
-
 
 def get_moves(my_arr, index_to_move: int) -> list:
     row = index_to_move // 3
@@ -89,13 +94,19 @@ def get_moves(my_arr, index_to_move: int) -> list:
 
     return valid_moves
 
-def move_tile(my_arr: list, tile):
+def move_tile(my_arr: list, tile: str):
     try:
         index = my_arr.index(int(tile))
-        print(get_moves(my_arr, index))
+        valid_moves = get_moves(my_arr, index)
+
+        for move in valid_moves:
+            offset = MOVE_OFFSETS[move]
+            my_arr[index + offset] = my_arr[index]
+            my_arr[index] = " "
 
     except ValueError:
         pass
+
 
 # Some test code:
 unformatted_list = random_selector(ELEMENTS, NUM_ELEMENTS_TO_SELECT)
@@ -105,3 +116,5 @@ print(ui_helper(formatted_list))
 while True:
     tile = input(("What to move? "))
     move_tile(unformatted_list, tile)
+    formatted_list = arr_builder(unformatted_list)
+    print(ui_helper(formatted_list))

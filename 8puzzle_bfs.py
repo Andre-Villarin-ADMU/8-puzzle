@@ -90,7 +90,12 @@ def get_moves(my_arr, index_to_move: int) -> list:
     return valid_moves
 
 def move_tile(my_arr: list, tile):
-    pass
+    try:
+        index = my_arr.index(int(tile))
+        print(get_moves(my_arr, index))
+
+    except ValueError:
+        pass
 
 # Some test code:
 unformatted_list = random_selector(ELEMENTS, NUM_ELEMENTS_TO_SELECT)

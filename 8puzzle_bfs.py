@@ -3,7 +3,8 @@ import math
 
 rows, cols = (3,3)
 ELEMENTS = [" ", 1, 2, 3, 4, 5, 6, 7, 8]
-HEADER_1 = "8 Puzzle - <Insert Algorithm Name>"
+GOAL_STATE = [1, 2, 3, 8, " ", 4, 7, 6, 5]
+HEADER_1 = "8 Puzzle - Breadth First Search (BFS) Algorithm"
 BORDER = "=" * len(HEADER_1)
 HEADER = [BORDER, HEADER_1]
 NUM_ELEMENTS_TO_SELECT = 9
@@ -62,15 +63,6 @@ def ui_helper(my_arr: list) -> str:
 def is_blank(my_arr: list, index_to_move: int, move: str):
     offset = MOVE_OFFSETS[move]
     to_check = my_arr[index_to_move + offset]
-    # match move:
-    #     case "up":
-    #         to_check = my_arr[index_to_move-3]
-    #     case "down":
-    #         to_check = my_arr[index_to_move+3]
-    #     case "left":
-    #         to_check = my_arr[index_to_move-1]
-    #     case "right":
-    #         to_check = my_arr[index_to_move+1]
     return to_check == " "
 
 def get_moves(my_arr, index_to_move: int) -> list:
@@ -94,7 +86,9 @@ def get_moves(my_arr, index_to_move: int) -> list:
 
     return valid_moves
 
-def move_tile(my_arr: list, tile: str):
+def is_goal_state(my_arr) -> bool:
+    return GOAL_STATE == my_arr
+def move_tile(my_arr: list, tile):
     try:
         index = my_arr.index(int(tile))
         valid_moves = get_moves(my_arr, index)
@@ -113,8 +107,20 @@ unformatted_list = random_selector(ELEMENTS, NUM_ELEMENTS_TO_SELECT)
 formatted_list = arr_builder(unformatted_list)
 print(ui_helper(formatted_list))
 
-while True:
-    tile = input(("What to move? "))
-    move_tile(unformatted_list, tile)
-    formatted_list = arr_builder(unformatted_list)
-    print(ui_helper(formatted_list))
+is_manual = True
+mode = input(("Manual Mode (non-BFS)? (Enter Y/N): "))
+if mode == "Y": is_manual
+else: is_manual = False
+if is_manual:
+    num_turns = 0
+    while not is_goal_state(unformatted_list):
+        tile = input("What tile to move (enter a digit): ")
+        move_tile(unformatted_list, tile)
+        formatted_list = arr_builder(unformatted_list)
+        print(ui_helper(formatted_list))
+        num_turns += 1
+    print(f"Completed in {num_turns} moves")
+
+else:
+    # bfs implementation
+    pass

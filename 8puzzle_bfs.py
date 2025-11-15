@@ -2,11 +2,11 @@ import random
 import math
 
 rows, cols = (3,3)
-ELEMENTS = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+ELEMENTS = [" ", 1, 2, 3, 4, 5, 6, 7, 8]
 HEADER_1 = "8 Puzzle - <Insert Algorithm Name>"
 BORDER = "=" * len(HEADER_1)
 HEADER = [BORDER, HEADER_1]
-NUM_ELEMENTS_TO_SELECT = 8
+NUM_ELEMENTS_TO_SELECT = 9
 
 
 def random_selector(elements, num_elements_to_select) -> list:
@@ -22,7 +22,7 @@ def random_selector(elements, num_elements_to_select) -> list:
         elements.pop(elements.index(selected))
         raw_arr.append(selected)
         num_elements_to_select -= 1
-        
+
     return raw_arr
 
 def arr_builder(raw_arr) -> list:
@@ -31,29 +31,15 @@ def arr_builder(raw_arr) -> list:
     a nested list to create the
     grid layout.
     '''
-    row_0 = [" ", " ", " "]
-    row_1 = [" ", " ", " "]
-    row_2 = [" ", " ", " "]
-
-    for i in range(len(raw_arr)):
-        element_to_add = raw_arr[i]
-        row = math.floor(raw_arr[i] / 3)
-        col = raw_arr[i] % 3
-
-        if row == 0:
-            row_0[col] = element_to_add
-
-        elif row == 1:
-            row_1[col] = element_to_add
-
-        else:
-            row_2[col] = element_to_add
+    row_0 = raw_arr[0:3]
+    row_1 = raw_arr[3:6]
+    row_2 = raw_arr[6:]    
         
     built_arr = [row_0, row_1, row_2]
 
     return built_arr
 
-def ui_helper(my_arr: list):
+def ui_helper(my_arr: list) -> str:
     '''
     This helper method references a list
     object 'my_arr' for printing out a minimal
@@ -68,7 +54,49 @@ def ui_helper(my_arr: list):
         
     return str_arr
 
+def is_blank(my_arr: list, index_to_move: int, move: str):
+    match move:
+        case "up":
+            to_check = my_arr[index_to_move-3]
+        case "down":
+            to_check = my_arr[index_to_move+3]
+        case "left":
+            to_check = my_arr[index_to_move-1]
+        case "right":
+            to_check = my_arr[index_to_move+1]
+
+    return to_check == " "
+
+
+def get_moves(my_arr, index_to_move: int) -> list:
+    row = index_to_move // 3
+    col = index_to_move % 3
+    available_moves = []
+    valid_moves = []
+    if (row > 0): 
+        available_moves.append("up")
+    if (row < 2): 
+        available_moves.append("down")
+    if (col > 0): 
+        available_moves.append("left")
+    if (col < 2): 
+        available_moves.append("right")
+
+    for move in available_moves:
+        print(move)
+        if is_blank(my_arr, index_to_move, move):
+            valid_moves.append(move)
+
+    return valid_moves
+
+def move_tile(my_arr: list, tile):
+    pass
+
 # Some test code:
 unformatted_list = random_selector(ELEMENTS, NUM_ELEMENTS_TO_SELECT)
 formatted_list = arr_builder(unformatted_list)
 print(ui_helper(formatted_list))
+
+while True:
+    tile = input(("What to move? "))
+    move_tile(unformatted_list, tile)

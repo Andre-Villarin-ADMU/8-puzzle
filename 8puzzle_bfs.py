@@ -4,7 +4,7 @@ from collections import deque
 import time
 
 rows, cols = (3,3)
-BLANK = " "
+BLANK = 0
 ELEMENTS = [BLANK, 1, 2, 3, 4, 5, 6, 7, 8]
 GOAL_STATE = (1, 2, 3, 4, 5, 6, 7, 8, BLANK)
 HEADER_1 = "8 Puzzle - Breadth First Search (BFS) Algorithm"
@@ -104,9 +104,9 @@ def find_neighbors(current_state: tuple) -> tuple:
     valid_moves = get_moves(index)
     neighbor_result = []
     for move in valid_moves:
+        swap_index = index + MOVE_OFFSETS[move]
         new_state = list(current_state)
-        new_state[index] = new_state[index + MOVE_OFFSETS[move]]
-        new_state[index + MOVE_OFFSETS[move]] = BLANK
+        new_state[index], new_state[swap_index] = new_state[swap_index], new_state[index]
         neighbor_result.append((tuple(new_state), move))
     
     return neighbor_result
@@ -133,9 +133,10 @@ def print_solution(path, move_arr):
         else:
             print(f"Move {i}: {move_arr[i]}")
         current_state = arr_builder(list(state))
-        print(ui_helper(current_state, False, i))
+        print(ui_helper(current_state, True, i))
 
 def bfs(init_state: tuple):
+    start = time.perf_counter()
     root_node = init_state
     parent = {root_node: None}
     moves = {root_node: None}
@@ -147,7 +148,8 @@ def bfs(init_state: tuple):
         current_state = bfs_queue.popleft()
 
         if is_goal_state(current_state):
-            print(f"Solution found at iteration {iter+1}!")
+            end = time.perf_counter()
+            print(f"Solution found at iteration {iter+1}! Time taken: {end - start}")
             path, move_arr = get_path(parent, moves, current_state)
             print_solution(path, move_arr)
             return path, move_arr
@@ -166,7 +168,9 @@ def bfs(init_state: tuple):
 
 # will clean up the code
 is_BFS = True
-state = random_selector(ELEMENTS, NUM_ELEMENTS_TO_SELECT)
+test_state = (8, 6, 7, 2, 5, 4, 3, BLANK, 1)
+state = test_state
+# state = random_selector(ELEMENTS, NUM_ELEMENTS_TO_SELECT)
 formatted_list = arr_builder(list(state))
 print(ui_helper(formatted_list, is_BFS, 0))
 

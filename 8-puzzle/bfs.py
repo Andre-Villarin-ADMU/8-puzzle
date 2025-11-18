@@ -45,6 +45,7 @@ def move_tile(my_arr: list, valid_moves, selected_move: str) -> list:
     return new_arr
 
 def find_neighbors(current_state: tuple) -> tuple:
+    from puzzle import get_moves
     index = current_state.index(BLANK)
     valid_moves = get_moves(index)
     neighbor_result = []

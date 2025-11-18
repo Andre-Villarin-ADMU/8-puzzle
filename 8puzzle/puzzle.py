@@ -1,13 +1,27 @@
 # puzzle.py
 # This python file contains the utility functions for representing the 8-puzzle
+HEADER_1 = "8 Puzzle - Breadth First Search (BFS) Algorithm"
+BORDER = "=" * len(HEADER_1)
+HEADER = [BORDER, HEADER_1]
+BLANK = 0
 
 '''
 Print the puzzle in a 3x3 grid
 '''
-def print_puzzle(puzzle):
-    for i in range(0, 9, 3):
-        print(puzzle[i:i+3])
-    print()
+def print_puzzle(puzzle, iter_count: int):
+    count_label = "(Depth-Limited DFS) Depth #: "
+    nested_arr = [puzzle[0:3], puzzle[3:6], puzzle[6:]]
+    # for i in range(0, 9, 3):
+    #     print(puzzle[i:i+3])
+    # print()
+    str_arr = f"{HEADER[0]}\n{HEADER[1]}\n{count_label}{iter_count}\n{HEADER[0]}\n\n"
+
+    for i in range(len(nested_arr)):
+        for j in range (len(nested_arr[i])):
+            str_arr += f"[ {nested_arr[i][j]} ]"
+        str_arr += f"\n"
+    
+    print(str_arr)
 
 '''
 Return a list of all possible moves from the current state

@@ -8,7 +8,8 @@ def main():
     initial_state = input("Enter the initial state of the puzzle (e.g. 1 2 3 4 5 6 7 8 0): ")
     initial_state = [int(x) for x in initial_state.split()]
     print("Initial state:")
-    print_puzzle(initial_state)
+    iter_count = 0
+    print_puzzle(initial_state, iter_count)
 
     # Input depth limit
     limit = int(input("Enter the depth limit for the depth limited DFS: "))
@@ -23,7 +24,8 @@ def main():
         print("Depth of solution", len(solution) - 1)
         print("Solution path: ")
         for state in solution:
-            print_puzzle(state)
+            print_puzzle(state, iter_count)
+            iter_count += 1
 
     else:
         print("\nNo solution found within the depth limit.\n")

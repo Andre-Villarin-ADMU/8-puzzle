@@ -1,3 +1,5 @@
+from bfs import *
+
 def main():
     is_BFS = True
     test_state = (8, 6, 7, 2, 5, 4, 3, BLANK, 1) # most difficult but solvable state

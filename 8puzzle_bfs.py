@@ -83,6 +83,21 @@ def get_moves(index_to_move: int) -> list:
     
     except ValueError:
         pass
+def is_solvable(my_arr: list):
+    # Remove the blank index
+    arr = [x for x in my_arr if x != 0]
+
+    # Calculate the inversion count
+    inv_count = 0
+    
+    for i in range(len(arr)):
+        for j in range(i+1, len(arr)):
+            if arr[i] > arr[j]:
+                inv_count += 1 
+    # If the inversion count is odd, then the puzzle is not solvable
+    
+    return inv_count % 2 == 0
+    # If the inversion count is even, then the puzzle is solvable
 
 def is_goal_state(my_arr: tuple) -> bool:
     return GOAL_STATE == my_arr
@@ -144,6 +159,10 @@ def bfs(init_state: tuple):
     bfs_queue = deque([root_node])
     iter = 0
 
+    if (not is_solvable(list(init_state))):
+        print("No solution exists. Start state is of odd parity.")
+        return None
+
     while len(bfs_queue) > 0:
         current_state = bfs_queue.popleft()
 
@@ -168,7 +187,7 @@ def bfs(init_state: tuple):
 
 # will clean up the code
 is_BFS = True
-test_state = (8, 6, 7, 2, 5, 4, 3, BLANK, 1)
+test_state = (8, 6, 7, 2, 5, 4, 3, BLANK, 1) # most difficult but solvable state
 state = test_state
 # state = random_selector(ELEMENTS, NUM_ELEMENTS_TO_SELECT)
 formatted_list = arr_builder(list(state))

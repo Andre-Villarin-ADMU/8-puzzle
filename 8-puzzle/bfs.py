@@ -1,5 +1,3 @@
-import random
-import math
 from collections import deque
 import time
 
@@ -7,10 +5,6 @@ rows, cols = (3,3)
 BLANK = 0
 ELEMENTS = [BLANK, 1, 2, 3, 4, 5, 6, 7, 8]
 GOAL_STATE = (1, 2, 3, 4, 5, 6, 7, 8, BLANK)
-HEADER_1 = "8 Puzzle - Breadth First Search (BFS) Algorithm"
-BORDER = "=" * len(HEADER_1)
-HEADER = [BORDER, HEADER_1]
-NUM_ELEMENTS_TO_SELECT = 9
 MOVE_OFFSETS = {
     "up": -3,
     "down": 3,
@@ -18,71 +12,6 @@ MOVE_OFFSETS = {
     "right": 1
 }
 
-def random_selector(elements, num_elements_to_select) -> tuple:
-    '''
-    Randomly chooses from ELEMENTS
-    and determines the order in which
-    these are added to a tuple state.
-    '''
-    state = []
-
-    while (num_elements_to_select > 0):
-        selected = random.choice(elements)
-        elements.pop(elements.index(selected))
-        state.append(selected)
-        num_elements_to_select -= 1
-
-    return tuple(state)
-
-def arr_builder(raw_arr: list) -> list:
-    '''
-    Takes a 1D list 'raw_arr' and builds
-    a nested list to create the
-    grid layout.
-    '''
-    row_0 = raw_arr[0:3]
-    row_1 = raw_arr[3:6]
-    row_2 = raw_arr[6:]    
-        
-    built_arr = [row_0, row_1, row_2]
-
-    return built_arr
-
-def ui_helper(my_arr: list, is_BFS: bool, iter_number: int) -> str:
-    '''
-    This helper method references a list
-    object 'my_arr' for printing out a minimal
-    GUI in the console.
-    '''
-    if is_BFS: count_label = "(BFS) Depth #: "
-    else: count_label = "(Non-BFS) Turn #: " 
-    str_arr = f"{HEADER[0]}\n{HEADER[1]}\n{count_label}{iter_number}\n{HEADER[0]}\n\n"
-
-    for i in range(len(my_arr)):
-        for j in range (len(my_arr[i])):
-            str_arr += f"[ {my_arr[i][j]} ]"
-        str_arr += f"\n"
-        
-    return str_arr
-
-def get_moves(index_to_move: int) -> list:
-    try:
-        row = index_to_move // 3
-        col = index_to_move % 3
-        valid_moves = []
-        if (row > 0): 
-            valid_moves.append("up")
-        if (row < 2): 
-            valid_moves.append("down")
-        if (col > 0): 
-            valid_moves.append("left")
-        if (col < 2): 
-            valid_moves.append("right")
-
-        return valid_moves
-    
-    except ValueError:
-        pass
 def is_solvable(my_arr: list):
     # Remove the blank index
     arr = [x for x in my_arr if x != 0]
@@ -104,6 +33,7 @@ def is_goal_state(my_arr: tuple) -> bool:
 
 def move_tile(my_arr: list, valid_moves, selected_move: str) -> list:
     new_arr = my_arr.copy()
+    index = new_arr.index(BLANK)
     try:
         offset = MOVE_OFFSETS[selected_move]
         new_arr[index] = new_arr[index + offset]
@@ -142,6 +72,7 @@ def get_path(parent: dict, moves: dict, goal_state: tuple) -> list:
     return path, move_arr
 
 def print_solution(path, move_arr):
+    from puzzle import arr_builder, ui_helper
     for i, state in enumerate(path):
         if i == 0:
             print("Start: ")

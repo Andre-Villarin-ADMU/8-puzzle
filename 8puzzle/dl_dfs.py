@@ -1,6 +1,6 @@
 # This file contains the depth limited depth first search algorithm for the 8 puzzle problem
 
-from puzzle import get_moves
+from puzzle import find_neighbors, GOAL_STATE
 
 def dl_dfs(state, limit, goal=[1,2,3,4,5,6,7,8,0]):
     '''

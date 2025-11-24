@@ -5,33 +5,35 @@ from bfs import bfs
 from dl_dfs import dl_dfs
 
 def get_initial_state():
-    mode = input("Generate a random solvable state (R) or enter a custom state (C)? (R/C): ").upper()
-    
-    if mode == 'C':
-        while True:
-            try:
-                # Expecting space-separated numbers, e.g., "1 2 3 4 5 6 7 8 0"
-                state_str = input("Enter the 9 tile numbers (1-8 and 0 for blank, separated by spaces): ")
-                state = tuple(int(x) for x in state_str.split())
-                
-                if len(state) != 9 or sorted(list(state)) != sorted(ELEMENTS):
-                    print("Invalid input. Must be 9 unique numbers (0-8).")
-                    continue
-                
-                if not is_solvable(state):
-                    print("This state is NOT solvable. Please enter a solvable state or try another one.")
-                    continue
-                
-                return state
-            except ValueError:
-                print("Invalid input. Please use numbers only.")
-    else:
-        # Keep generating random states until a solvable one is found
-        while True:
-            state = random_selector(ELEMENTS)
-            if is_solvable(state):
-                print("Generated a random solvable state.")
-                return state
+    while True:
+        mode = input("Generate a random solvable state (R) or enter a custom state (C)? (R/C): ").upper()
+        if mode == 'C':
+            while True:
+                try:
+                    # Expecting space-separated numbers, e.g., "1 2 3 4 5 6 7 8 0"
+                    state_str = input("Enter the 9 tile numbers (1-8 and 0 for blank, separated by spaces): ")
+                    state = tuple(int(x) for x in state_str.split())
+                    
+                    if len(state) != 9 or sorted(list(state)) != sorted(ELEMENTS):
+                        print("Invalid input. Must be 9 unique numbers (0-8).")
+                        continue
+                    
+                    if not is_solvable(state):
+                        print("This state is NOT solvable. Please enter a solvable state or try another one.")
+                        continue
+                    
+                    return state
+                except ValueError:
+                    print("Invalid input. Please use numbers only.")
+        elif mode == 'R':
+            # Keep generating random states until a solvable one is found
+            while True:
+                state = random_selector(ELEMENTS)
+                if is_solvable(state):
+                    print("Generated a random solvable state.")
+                    return state
+        else:
+            print("Invalid input.")   
 
 def main():
     print("=" * 30)

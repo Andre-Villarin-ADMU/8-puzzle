@@ -3,14 +3,14 @@
 - [Contributors](##Contributors)
 - [Features](##Features)
 - [Project Files](#Project-Files)
-- [Running the 8-Puzzle Solver](#Running the 8-Puzzle Solver)
+- [Running the 8-Puzzle Solver](#Running-the-8-Puzzle-Solver)
 - [Example](##Sample-Output)
-- [Directory] (#Links)
+- [Directory](#Links)
 
 # Overview
-This project demonstrates two search algorithms, namely Breadth-First Search (BFS) and Depth-Limited Depth-First Search (DL-DFS) by finding the solution path of an 8-puzzle configuration, if it exists.
+This project demonstrates two search algorithms, namely **Breadth-First Search (BFS)** and **Depth-Limited Depth-First Search (DL-DFS)** by finding the solution path of an 8-puzzle configuration, if it exists.
 
-This was developed for the completion of the CSCI 111 - Introduction to AI course at the Ateneo de Manila University.
+This was developed for the completion of the **CSCI 111 - Introduction to AI course at the Ateneo de Manila University**.
 
 ## Contributors
 Go, Jasper; Predigua, Dave; Villarin, Andre
@@ -22,38 +22,38 @@ Go, Jasper; Predigua, Dave; Villarin, Andre
 - Console-based UI: Displays the execution time, solution path, moves, and solution depth.
 
 # Project Files
-8-puzzle/
-|
-|-- bfs.py      # contains BFS logic
-|-- dl_dfs.py   # contains DL-DFS logic
-|-- main.py     # implements console-based UI and input handling
-|-- puzzle.py   # contains main logic and other helper methods used by bfs and dl_dfs
-|-- README.md
+    8-puzzle/
+    |
+    |-- bfs.py      # contains BFS logic
+    |-- dl_dfs.py   # contains DL-DFS logic
+    |-- main.py     # implements console-based UI and input handling
+    |-- puzzle.py   # contains main logic and other helper methods used by bfs and dl_dfs
+    |-- README.md
 
 # Running the 8-Puzzle Solver
 
 1. Download .zip file from GDrive or GitHub Repository
 
     if using git:
-        git clone https://github.com/Andre-Villarin-ADMU/8-puzzle.git
+        `git clone https://github.com/Andre-Villarin-ADMU/8-puzzle.git`
 
     then:
-        cd <directory of files>
+        `cd <directory of files>`
 
 2. Run main.py (req: python)
 
-    python3 main.py
+        python3 main.py
 
 3. Follow prompts displayed by the console
 
 ## Sample Output
 
-Try: 8 3 6 0 1 5 4 2 7
-
---- Initial State ---
-[8] [3] [6]
-[ ] [1] [5]
-[4] [2] [7]
+    Try: 8 3 6 0 1 5 4 2 7
+    
+    --- Initial State ---
+    [8] [3] [6]
+    [ ] [1] [5]
+    [4] [2] [7]
 
 Choose Algorithm: Breadth-First Search (B) or Depth-Limited DFS (D)? (B/D): B
 
